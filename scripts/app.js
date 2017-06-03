@@ -32,29 +32,31 @@ var buildBoxTemplate = function(boxNum) {
 	return $(template);
 };
 
-/***** Function | Box Click Handler *****/
-var boxClickHandler = function() {
- var rgbBackground = $(this).css('background-color');
-	if (rgb2hex(rgbBackground).toUpperCase() === $randomColor.text()) {
-		alert('That is the right one!');
-	}
-};
-
-/***** Function | Generate Boxes *****/
-var generateBoxes = function() {
-	for (var i = 0; i < 6; i++) {
-		var $newBox = buildBoxTemplate(i + 1);
-		$newBox.css('background-color', getRandomHexCode())
-		$newBox.click(boxClickHandler);
-		$('.box-wrapper').append($newBox);
-	}
-};
 
 /*===== ON LOAD =====*/
 $(window).load(function() {
 
-	$('.box-wrapper').empty();
+	/***** Function | Box Click Handler *****/
+	var boxClickHandler = function() {
+	 var rgbBackground = $(this).css('background-color');
+		if (rgb2hex(rgbBackground).toUpperCase() === $randomColor.text()) {
+			$('body').css('background-color', currentRandomBoxColor);
+			$('.box').css('background-color', currentRandomBoxColor);
+			$('h1.main-heading').text('That\'s the one!');
+		}
+	};
 
+	/***** Function | Generate Boxes *****/
+	var generateBoxes = function() {
+		for (var i = 0; i < 6; i++) {
+			var $newBox = buildBoxTemplate(i + 1);
+			$newBox.css('background-color', getRandomHexCode())
+			$newBox.click(boxClickHandler);
+			$('.box-wrapper').append($newBox);
+		}
+	};
+
+	$('.box-wrapper').empty();
 	generateBoxes();
 
 	/***** Function | Get random box color to Guess *****/
@@ -64,6 +66,17 @@ $(window).load(function() {
 		return rgb2hex(randomRgbColor).toUpperCase();
 	};
 
-	$randomColor.text(getRandomBoxColor());
+	var currentRandomBoxColor = getRandomBoxColor();
 
+	$randomColor.text(currentRandomBoxColor);
+
+	/***** Function | Reset Button Click Handler *****/
+	$('button.reset-button').click(function() {
+		$('.box-wrapper').empty();
+		generateBoxes();
+		currentRandomBoxColor = getRandomBoxColor();
+		$randomColor.text(currentRandomBoxColor);
+		$('h1.main-heading').text('Welcome to The Colors Game!');
+		$('body').css('background-color', 'rgba(0, 0, 0, 0.9)');
+	});
 });

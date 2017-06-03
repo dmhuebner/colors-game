@@ -33,6 +33,7 @@ body {
 	-webkit-transition: height 0.5, width 0.5;
 	-moz-transition: height 0.5, width 0.5;
 	transition: height 0.5, width 0.5;
+	cursor: pointer;
 }
 
 /*===== TRANSITION STYLES =====*/
