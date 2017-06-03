@@ -13,6 +13,11 @@ body {
 	display: inline-block;
 }
 
+#attempts-left {
+	color: #FFF;
+	font-size: 2rem;
+}
+
 .random-color {
 	display: inline-block;
 	margin: 2rem;

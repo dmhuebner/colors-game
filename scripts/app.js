@@ -1,6 +1,7 @@
 /***** Initial Variables *****/
 var $randomColor = $('.random-color');
-var attempts = 2;
+var attempts = 3;
+$('#attempts-left').text("Attempts: " + attempts);
 
 /***** Function | Get random hex code *****/
 var getRandomHexCode = function() {
@@ -43,6 +44,26 @@ $(window).load(function() {
 			$('body').css('background-color', currentRandomBoxColor);
 			$('.box').css('background-color', currentRandomBoxColor);
 			$('h1.main-heading').text('That\'s the one!');
+			$('#attempts-left').text("Nice!");
+
+			$(this).animate({  borderSpacing: -180 }, {
+			    step: function(now,fx) {
+			      $(this).css('-webkit-transform','rotate('+now+'deg)');
+			      $(this).css('-moz-transform','rotate('+now+'deg)');
+			      $(this).css('transform','rotate('+now+'deg)');
+			    },
+			    duration: 300
+			},'linear');
+		} else {
+			attempts -= 1;
+			$('#attempts-left').text("Attempts: " + attempts);
+			if (attempts <= 0) {
+				// $('h1.main-heading').text('Game Over :-()');
+				alert("Game over");
+				location.reload();
+			} else {
+				$('#attempts-left').text("Attempts: " + attempts);
+			}
 		}
 	};
 
@@ -78,5 +99,7 @@ $(window).load(function() {
 		$randomColor.text(currentRandomBoxColor);
 		$('h1.main-heading').text('Welcome to The Colors Game!');
 		$('body').css('background-color', 'rgba(0, 0, 0, 0.9)');
+		attempts = 3;
+		$('#attempts-left').text("Attempts: " + attempts);
 	});
 });
