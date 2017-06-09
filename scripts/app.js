@@ -71,7 +71,9 @@ $(window).load(function() {
 	var generateBoxes = function() {
 		for (var i = 0; i < 6; i++) {
 			var $newBox = buildBoxTemplate(i + 1);
-			$newBox.css('background-color', getRandomHexCode())
+			$newBox.css('background-color', getRandomHexCode());
+			/*** No display for jQuery fade ***/
+			$newBox.css('display', 'none').fadeIn(1000);
 			$newBox.click(boxClickHandler);
 			$('.box-wrapper').append($newBox);
 		}
