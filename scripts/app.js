@@ -1,6 +1,7 @@
 /***** Initial Variables *****/
 var $randomColor = $('.random-color');
 var attempts = 3;
+var colorType = 'hex';
 $('#attempts-left').text("Attempts: " + attempts);
 
 /***** Function | Get random hex code *****/
@@ -33,14 +34,20 @@ var buildBoxTemplate = function(boxNum) {
 	return $(template);
 };
 
-
 /*===== ON LOAD =====*/
 $(window).load(function() {
 
 	/***** Function | Box Click Handler *****/
 	var boxClickHandler = function() {
-	 var rgbBackground = $(this).css('background-color');
-		if (rgb2hex(rgbBackground).toUpperCase() === $randomColor.text()) {
+	var backgroundColor;
+	var rgbBackground = $(this).css('background-color');
+	var hexBackground = rgb2hex(rgbBackground);
+		if (colorType === 'hex') {
+			backgroundColor = hexBackground;
+		} else if (colorType === 'rgb') {
+			backgroundColor = rgbBackground;
+		}
+		if (backgroundColor.toUpperCase() === $randomColor.text()) {
 			$('body').css('background-color', currentRandomBoxColor);
 			$('.box').css('background-color', currentRandomBoxColor);
 			$('h1.main-heading').text('That\'s the one!');
@@ -86,15 +93,19 @@ $(window).load(function() {
 	var getRandomBoxColor = function() {
 		var randomBoxNum = Math.floor(Math.random() * 6) + 1;
 		var randomRgbColor = ($('.box-wrapper #box-' + randomBoxNum).css('background-color'));
-		return rgb2hex(randomRgbColor).toUpperCase();
+		if (colorType === 'hex') {
+			return rgb2hex(randomRgbColor).toUpperCase();
+		} else {
+			return randomRgbColor.toUpperCase();
+		}
 	};
 
 	var currentRandomBoxColor = getRandomBoxColor();
 
 	$randomColor.text(currentRandomBoxColor);
 
-	/***** Function | Reset Button Click Handler *****/
-	$('button.reset-button').click(function() {
+	/***** Function | resetBoxes *****/
+	var resetBoxes = function() {
 		$('.box-wrapper').empty();
 		generateBoxes();
 		currentRandomBoxColor = getRandomBoxColor();
@@ -103,5 +114,24 @@ $(window).load(function() {
 		$('body').css('background-color', 'rgba(0, 0, 0, 0.9)');
 		attempts = 3;
 		$('#attempts-left').text("Attempts: " + attempts);
+	};
+
+	/***** Function | Reset Button Click Handler *****/
+	$('button.reset-button').click(function() {
+		resetBoxes();
+	});
+
+	/***** Function | colorType *****/
+	$('#hex').click(function() {
+		colorType = 'hex';
+		resetBoxes();
+		$('#hex').addClass('active');
+		$('#rgb').removeClass('active');
+	});
+	$('#rgb').click(function() {
+		colorType = 'rgb';
+		resetBoxes();
+		$('#rgb').addClass('active');
+		$('#hex').removeClass('active');
 	});
 });

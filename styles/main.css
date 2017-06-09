@@ -8,6 +8,14 @@ body {
 	background-color: rgba(0, 0, 0, 0.9);
 }
 
+.nav-tabs li {
+	border: 1px solid #EEE;
+}
+
+.nav-tabs li.active {
+	border: none;
+}
+
 .reset-button {
 	margin-bottom: 1rem;
 	display: inline-block;
